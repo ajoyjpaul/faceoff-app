@@ -44,10 +44,15 @@
       </div>
     </div>
 
-    <!-- Floating Ask FaceOff AI Button -->
-    <button class="floating-ai-button" @click="openAI">
-      Ask FaceOff AI
-    </button>
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+      <button class="floating-button floating-compare-button" @click="openComparison">
+        Compare Players
+      </button>
+      <button class="floating-button floating-ai-button" @click="openAI">
+        Ask FaceOff AI
+      </button>
+    </div>
   </div>
 </template>
 
@@ -119,6 +124,10 @@ const handleImageError = (event: Event) => {
 const openAI = () => {
   router.push('/ai')
 }
+
+const openComparison = () => {
+  router.push('/compare')
+}
 </script>
 
 <style scoped>
@@ -177,21 +186,32 @@ const openAI = () => {
   display: inline-block;
 }
 
-.floating-ai-button {
+.floating-buttons {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  background: linear-gradient(135deg, #fcb514 0%, #f39c12 100%);
-  color: #000;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 1000;
+}
+
+.floating-button {
   border: none;
   border-radius: 8px;
   padding: 15px 25px;
   font-weight: 600;
   font-size: 1rem;
-  box-shadow: 0 4px 20px rgba(252, 181, 20, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: all 0.3s ease;
-  z-index: 1000;
+  min-width: 150px;
+}
+
+.floating-ai-button {
+  background: linear-gradient(135deg, #fcb514 0%, #f39c12 100%);
+  color: #000;
+  box-shadow: 0 4px 20px rgba(252, 181, 20, 0.4);
 }
 
 .floating-ai-button:hover {
@@ -200,7 +220,19 @@ const openAI = () => {
   background: linear-gradient(135deg, #f39c12 0%, #fcb514 100%);
 }
 
-.floating-ai-button:active {
+.floating-compare-button {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  box-shadow: 0 4px 20px rgba(40, 167, 69, 0.4);
+}
+
+.floating-compare-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(40, 167, 69, 0.6);
+  background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
+}
+
+.floating-button:active {
   transform: translateY(0);
 }
 
@@ -220,11 +252,15 @@ const openAI = () => {
     height: 60px;
   }
   
-  .floating-ai-button {
+  .floating-buttons {
     bottom: 20px;
     right: 20px;
+  }
+  
+  .floating-button {
     padding: 12px 20px;
     font-size: 0.9rem;
+    min-width: 130px;
   }
 }
 </style>
