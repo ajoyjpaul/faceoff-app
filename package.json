@@ -1,0 +1,24 @@
+{
+  "name": "faceoff-app",
+  "version": "1.0.0",
+  "description": "FaceOff AI - Hockey Analytics Platform",
+  "main": "index.js",
+  "scripts": {
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run start",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install"
+  },
+  "keywords": [
+    "hockey",
+    "analytics",
+    "ai",
+    "nhl",
+    "vue",
+    "typescript",
+    "express"
+  ],
+  "author": "",
+  "license": "MIT"
+}
