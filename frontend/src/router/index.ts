@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import LoginPage from "../views/LoginPage.vue";
 import HomePage from "../views/HomePage.vue";
 import FaceOffAI from "../views/FaceOffAI.vue";
+import PlayerComparison from "../views/PlayerComparison.vue";
 import { authService } from "../services/authService";
 
 const routes: RouteRecordRaw[] = [
@@ -17,6 +18,12 @@ const routes: RouteRecordRaw[] = [
     path: "/ai",
     name: "FaceOffAI",
     component: FaceOffAI,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/compare",
+    name: "PlayerComparison",
+    component: PlayerComparison,
     meta: { requiresAuth: true },
   },
 ];
