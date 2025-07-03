@@ -684,27 +684,29 @@ calculateBestStats()
   position: sticky;
   left: 0;
   z-index: 11;
-  background: rgba(252, 181, 20, 0.15);
+  background: rgba(26, 26, 26, 0.98);
   backdrop-filter: blur(10px);
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
   min-width: 140px;
   width: 140px;
   max-width: 140px;
+  border-right: 1px solid rgba(252, 181, 20, 0.3);
 }
 
 .comparison-table td:first-child {
   position: sticky;
   left: 0;
-  background: rgba(45, 45, 45, 0.95);
+  background: rgba(26, 26, 26, 0.98);
   backdrop-filter: blur(10px);
   z-index: 9;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
   min-width: 140px;
   width: 140px;
   max-width: 140px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  border-right: 1px solid rgba(252, 181, 20, 0.3);
 }
 
 .comparison-table tbody tr:last-child td {
