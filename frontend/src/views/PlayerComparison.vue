@@ -14,11 +14,8 @@
             
             <!-- Player Selection Controls -->
             <div class="selection-section mb-5">
-              <div class="d-flex align-items-center mb-4">
-                <h3 class="selection-title me-4">Compare Players</h3>
-                <button class="btn btn-primary add-player-btn" @click="addPlayer" :disabled="availablePlayers.length === 0">
-                  <i class="fas fa-plus me-2"></i>Add Player
-                </button>
+              <div class="mb-4">
+                <h3 class="selection-title">Compare Players</h3>
               </div>
 
               <!-- Player Selection Dropdowns -->
@@ -34,10 +31,21 @@
                         </option>
                       </optgroup>
                     </select>
-                    <button class="btn btn-outline-danger ms-2 remove-btn" @click="removePlayer(index)" v-if="selectedPlayers.length > 2">
-                      <i class="fas fa-trash"></i>
+                    <button class="btn btn-outline-danger ms-2 remove-btn" @click="removePlayer(index)">
+                      <i class="fas fa-trash-alt"></i>
                     </button>
                   </div>
+                </div>
+
+                <!-- Add Player Button -->
+                <div class="d-flex align-items-center mt-4">
+                  <div class="player-number-placeholder"></div>
+                  <div class="add-button-container">
+                    <button class="btn add-player-btn-circle" @click="addPlayer" :disabled="availablePlayers.length === 0" title="Add Player">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                  <div class="remove-button-placeholder"></div>
                 </div>
               </div>
             </div>
@@ -93,13 +101,7 @@
               <!-- Comparison Table -->
               <div class="comparison-stats mt-5" v-if="selectedPlayersData.length > 1">
                 <h3 class="section-title mb-4">Statistical Comparison</h3>
-                <div class="scroll-indicator-container">
-                  <div class="scroll-indicator">
-                    <i class="fas fa-arrow-left"></i>
-                    <span>Scroll horizontally to view all players</span>
-                    <i class="fas fa-arrow-right"></i>
-                  </div>
-                  <div class="comparison-table-wrapper">
+                <div class="comparison-table-wrapper">
                     <table class="comparison-table">
                     <thead>
                       <tr>
@@ -161,7 +163,6 @@
                       </tr>
                     </tbody>
                     </table>
-                  </div>
                 </div>
               </div>
             </div>
@@ -281,10 +282,8 @@ const addPlayer = () => {
 }
 
 const removePlayer = (index: number) => {
-  if (selectedPlayers.value.length > 2) {
-    selectedPlayers.value.splice(index, 1)
-    calculateBestStats()
-  }
+  selectedPlayers.value.splice(index, 1)
+  calculateBestStats()
 }
 
 const parseTimeToMinutes = (toi: string): number => {
@@ -406,23 +405,57 @@ calculateBestStats()
   margin: 0;
 }
 
-.add-player-btn {
+.add-player-btn-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
   border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-weight: 600;
+  color: white;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
 }
 
-.add-player-btn:hover:not(:disabled) {
+.add-player-btn-circle i {
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-number-placeholder {
+  width: 30px;
+  height: 30px;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.add-button-container {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  max-width: calc(100% - 97px); /* Account for player number + remove button space */
+}
+
+.remove-button-placeholder {
+  width: 52px;
+  margin-left: 8px;
+}
+
+.add-player-btn-circle:hover:not(:disabled) {
   background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
 }
 
-.add-player-btn:disabled {
+.add-player-btn-circle:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
 
 .player-selection-row {
@@ -472,16 +505,23 @@ calculateBestStats()
 }
 
 .remove-btn {
-  border-color: #dc3545;
-  color: #dc3545;
+  background: #dc3545;
+  border: none;
+  color: white;
   padding: 8px 12px;
   border-radius: 6px;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
 }
 
 .remove-btn:hover {
-  background: #dc3545;
-  color: white;
+  background: #c82333;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+.remove-btn i {
+  font-size: 1rem;
 }
 
 .players-grid {
@@ -606,45 +646,6 @@ calculateBestStats()
   display: inline-block;
 }
 
-.scroll-indicator-container {
-  position: relative;
-}
-
-.scroll-indicator {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.75rem;
-  background: rgba(252, 181, 20, 0.1);
-  border: 1px solid rgba(252, 181, 20, 0.3);
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  color: #fcb514;
-  font-size: 0.9rem;
-  gap: 1rem;
-}
-
-.scroll-indicator i {
-  font-size: 1.2rem;
-}
-
-.scroll-indicator i.fa-arrow-left {
-  animation: slideLeft 2s infinite;
-}
-
-.scroll-indicator i.fa-arrow-right {
-  animation: slideRight 2s infinite;
-}
-
-@keyframes slideLeft {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(-3px); }
-}
-
-@keyframes slideRight {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(3px); }
-}
 
 .comparison-table-wrapper {
   overflow-x: auto;
@@ -654,30 +655,6 @@ calculateBestStats()
   backdrop-filter: blur(10px);
   border: 1px solid rgba(252, 181, 20, 0.2);
   position: relative;
-}
-
-.comparison-table-wrapper::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 20px;
-  height: 100%;
-  background: linear-gradient(to left, rgba(252, 181, 20, 0.1), transparent);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.comparison-table-wrapper::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 20px;
-  height: 100%;
-  background: linear-gradient(to right, rgba(252, 181, 20, 0.1), transparent);
-  pointer-events: none;
-  z-index: 1;
 }
 
 .comparison-table {
@@ -707,13 +684,26 @@ calculateBestStats()
   left: 0;
   z-index: 11;
   background: rgba(252, 181, 20, 0.15);
+  backdrop-filter: blur(10px);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  min-width: 140px;
+  width: 140px;
+  max-width: 140px;
 }
 
 .comparison-table td:first-child {
   position: sticky;
   left: 0;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(45, 45, 45, 0.95);
+  backdrop-filter: blur(10px);
   z-index: 9;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  min-width: 140px;
+  width: 140px;
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .comparison-table tbody tr:last-child td {
@@ -723,6 +713,7 @@ calculateBestStats()
 .stat-name {
   font-weight: 500;
   text-align: left !important;
+  padding-right: 1rem !important;
 }
 
 .best-stat-cell {
@@ -810,10 +801,12 @@ calculateBestStats()
   .player-number {
     align-self: flex-start;
     margin-bottom: 10px;
+    margin-right: 0;
   }
 
   .remove-btn {
     margin-top: 10px;
+    margin-left: 0;
     align-self: flex-start;
   }
 }
