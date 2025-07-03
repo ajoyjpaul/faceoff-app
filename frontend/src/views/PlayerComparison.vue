@@ -101,7 +101,16 @@
               <!-- Comparison Table -->
               <div class="comparison-stats mt-5" v-if="selectedPlayersData.length > 1">
                 <h3 class="section-title mb-4">Statistical Comparison</h3>
-                <div class="comparison-table-wrapper">
+                <div class="comparison-table-container">
+                  <!-- Scroll Indicators -->
+                  <div v-if="showLeftArrow" class="scroll-indicator-left" @click="scrollLeft">
+                    <i class="fas fa-chevron-left"></i>
+                  </div>
+                  <div v-if="showRightArrow" class="scroll-indicator-right" @click="scrollRight">
+                    <i class="fas fa-chevron-right"></i>
+                  </div>
+                  
+                  <div class="comparison-table-wrapper" ref="tableWrapper" @scroll="handleScroll">
                     <table class="comparison-table">
                     <thead>
                       <tr>
@@ -163,6 +172,7 @@
                       </tr>
                     </tbody>
                     </table>
+                  </div>
                 </div>
               </div>
             </div>
@@ -185,7 +195,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import playerData from '../../../shared/data/player_data.json'
 
@@ -206,6 +216,9 @@ interface Player {
 
 const selectedPlayers = ref<(Player | string)[]>(['', ''])
 const bestStats = ref<Record<string, number>>({})
+const tableWrapper = ref<HTMLElement | null>(null)
+const showLeftArrow = ref(false)
+const showRightArrow = ref(false)
 
 const allPlayersGrouped = computed(() => {
   const grouped: Record<number, Player[]> = {}
@@ -340,6 +353,35 @@ const getPlayerInitials = (name: string) => {
   return name.split(' ').map(n => n.charAt(0)).join('').toUpperCase().slice(0, 2)
 }
 
+const handleScroll = () => {
+  if (!tableWrapper.value) return
+  
+  const { scrollLeft, scrollWidth, clientWidth } = tableWrapper.value
+  
+  // Show left arrow if scrolled right from the beginning
+  showLeftArrow.value = scrollLeft > 0
+  
+  // Show right arrow if there's more content to scroll
+  showRightArrow.value = scrollLeft < (scrollWidth - clientWidth - 1)
+}
+
+const scrollLeft = () => {
+  if (tableWrapper.value) {
+    tableWrapper.value.scrollBy({ left: -200, behavior: 'smooth' })
+  }
+}
+
+const scrollRight = () => {
+  if (tableWrapper.value) {
+    tableWrapper.value.scrollBy({ left: 200, behavior: 'smooth' })
+  }
+}
+
+const updateScrollIndicators = async () => {
+  await nextTick()
+  handleScroll()
+}
+
 const goHome = () => {
   router.push('/home')
 }
@@ -347,6 +389,7 @@ const goHome = () => {
 // Watch for changes in selected players and recalculate best stats
 watch(selectedPlayersData, () => {
   calculateBestStats()
+  updateScrollIndicators()
 }, { deep: true })
 
 // Initialize with empty calculation
@@ -645,6 +688,55 @@ calculateBestStats()
   padding-bottom: 0.5rem;
   margin-bottom: 1.5rem;
   display: inline-block;
+}
+
+.comparison-table-container {
+  position: relative;
+}
+
+.scroll-indicator-left,
+.scroll-indicator-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: rgba(252, 181, 20, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 12;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(252, 181, 20, 0.4);
+  animation: float 2s ease-in-out infinite;
+}
+
+.scroll-indicator-left {
+  left: 10px;
+}
+
+.scroll-indicator-right {
+  right: 10px;
+}
+
+.scroll-indicator-left:hover,
+.scroll-indicator-right:hover {
+  background: rgba(252, 181, 20, 1);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 20px rgba(252, 181, 20, 0.6);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(-50%);
+  }
+  50% {
+    transform: translateY(-60%);
+  }
 }
 
 
