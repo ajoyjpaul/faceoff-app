@@ -42,7 +42,7 @@
                   <div class="player-number-placeholder"></div>
                   <div class="add-button-container">
                     <button class="btn add-player-btn-rectangle" @click="addPlayer" :disabled="availablePlayers.length === 0" title="Add Player">
-                      <i class="fas fa-plus"></i>
+                      Add Player
                     </button>
                   </div>
                   <div class="remove-button-placeholder"></div>
@@ -180,7 +180,7 @@
             <!-- Empty State -->
             <div v-else class="empty-state">
               <h3>Add players to compare their stats</h3>
-              <p>Use the "Add Player" button above to start comparing players across different seasons.</p>
+              <p>Use the "Add Player" button above to start comparing players.</p>
             </div>
           </div>
         </div>
@@ -452,22 +452,16 @@ calculateBestStats()
   width: 100%;
   height: 48px;
   border-radius: 8px;
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-  border: 2px solid rgba(40, 167, 69, 0.3);
-  color: white;
-  font-size: 1.5rem;
+  background: linear-gradient(135deg, #fcb514 0%, #f39c12 100%);
+  border: 2px solid rgba(252, 181, 20, 0.3);
+  color: #000;
+  font-size: 1rem;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
-}
-
-.add-player-btn-rectangle i {
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  box-shadow: 0 2px 8px rgba(252, 181, 20, 0.3);
 }
 
 .player-number-placeholder {
@@ -490,10 +484,10 @@ calculateBestStats()
 }
 
 .add-player-btn-rectangle:hover:not(:disabled) {
-  background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
+  background: linear-gradient(135deg, #f39c12 0%, #fcb514 100%);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
-  border-color: rgba(40, 167, 69, 0.5);
+  box-shadow: 0 4px 12px rgba(252, 181, 20, 0.4);
+  border-color: rgba(252, 181, 20, 0.5);
 }
 
 .add-player-btn-rectangle:disabled {
