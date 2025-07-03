@@ -69,8 +69,8 @@ async function login() {
     const result = await authService.signIn(email.value, password.value);
     
     if (result.success) {
-      // Redirect to home page on successful login
-      router.push('/home');
+      // Redirect to comparison page on successful login
+      router.push('/compare');
     } else {
       error.value = result.error || 'Username/password error';
     }
