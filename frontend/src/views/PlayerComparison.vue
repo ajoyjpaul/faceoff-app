@@ -8,7 +8,7 @@
             <div class="header-section mb-5">
               <div class="d-flex align-items-center">
                 <img src="/penguins.svg" alt="Pittsburgh Penguins" class="penguins-logo me-3">
-                <h1 class="page-title">Player Comparison</h1>
+                <h1 class="page-title">FaceOff</h1>
               </div>
             </div>
             
@@ -187,19 +187,12 @@
       </div>
     </div>
 
-    <!-- Back to Home Button -->
-    <button class="floating-home-button" @click="goHome">
-      Back to Home
-    </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch, nextTick } from 'vue'
-import { useRouter } from 'vue-router'
 import playerData from '../../../shared/data/player_data.json'
-
-const router = useRouter()
 
 interface Player {
   season: number
@@ -382,9 +375,6 @@ const updateScrollIndicators = async () => {
   handleScroll()
 }
 
-const goHome = () => {
-  router.push('/home')
-}
 
 // Watch for changes in selected players and recalculate best stats
 watch(selectedPlayersData, () => {
@@ -824,32 +814,6 @@ calculateBestStats()
   color: white;
 }
 
-.floating-home-button {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background: linear-gradient(135deg, #fcb514 0%, #f39c12 100%);
-  color: #000;
-  border: none;
-  border-radius: 8px;
-  padding: 15px 25px;
-  font-weight: 600;
-  font-size: 1rem;
-  box-shadow: 0 4px 20px rgba(252, 181, 20, 0.4);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 1000;
-}
-
-.floating-home-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(252, 181, 20, 0.6);
-  background: linear-gradient(135deg, #f39c12 0%, #fcb514 100%);
-}
-
-.floating-home-button:active {
-  transform: translateY(0);
-}
 
 @media (max-width: 1024px) {
   .players-grid {

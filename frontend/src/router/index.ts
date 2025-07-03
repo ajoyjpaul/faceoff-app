@@ -1,25 +1,11 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import LoginPage from "../views/LoginPage.vue";
-import HomePage from "../views/HomePage.vue";
-import FaceOffAI from "../views/FaceOffAI.vue";
 import PlayerComparison from "../views/PlayerComparison.vue";
 import { authService } from "../services/authService";
 
 const routes: RouteRecordRaw[] = [
   { path: "/", redirect: "/login" },
   { path: "/login", name: "Login", component: LoginPage },
-  {
-    path: "/home",
-    name: "Home",
-    component: HomePage,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: "/ai",
-    name: "FaceOffAI",
-    component: FaceOffAI,
-    meta: { requiresAuth: true },
-  },
   {
     path: "/compare",
     name: "PlayerComparison",
@@ -56,8 +42,8 @@ router.beforeEach(async (to, from, next) => {
   } else {
     // Route doesn't require authentication
     if (to.path === "/login" && authService.isAuthenticated()) {
-      // If user is already logged in and trying to access login, redirect to home
-      next("/home");
+      // If user is already logged in and trying to access login, redirect to compare
+      next("/compare");
     } else {
       next();
     }
