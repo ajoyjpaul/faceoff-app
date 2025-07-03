@@ -41,7 +41,7 @@
                 <div class="d-flex align-items-center mt-4">
                   <div class="player-number-placeholder"></div>
                   <div class="add-button-container">
-                    <button class="btn add-player-btn-circle" @click="addPlayer" :disabled="availablePlayers.length === 0" title="Add Player">
+                    <button class="btn add-player-btn-rectangle" @click="addPlayer" :disabled="availablePlayers.length === 0" title="Add Player">
                       <i class="fas fa-plus"></i>
                     </button>
                   </div>
@@ -405,22 +405,22 @@ calculateBestStats()
   margin: 0;
 }
 
-.add-player-btn-circle {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+.add-player-btn-rectangle {
+  width: 100%;
+  height: 48px;
+  border-radius: 8px;
   background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-  border: none;
+  border: 2px solid rgba(40, 167, 69, 0.3);
   color: white;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
 }
 
-.add-player-btn-circle i {
+.add-player-btn-rectangle i {
   line-height: 1;
   display: flex;
   align-items: center;
@@ -446,13 +446,14 @@ calculateBestStats()
   margin-left: 8px;
 }
 
-.add-player-btn-circle:hover:not(:disabled) {
+.add-player-btn-rectangle:hover:not(:disabled) {
   background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+  border-color: rgba(40, 167, 69, 0.5);
 }
 
-.add-player-btn-circle:disabled {
+.add-player-btn-rectangle:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
