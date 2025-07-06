@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { clientAuth, adminAuth } from "../config/firebase";
+import { sendResponse } from "../utils/helpers";
 
 export interface LoginRequest {
   email: string;
@@ -13,7 +14,6 @@ export interface AuthResponse {
   token?: string;
   user?: {
     uid: string;
-    email: string;
   };
 }
 
@@ -24,10 +24,7 @@ export const authController = {
       const { email, password }: LoginRequest = req.body;
 
       if (!email || !password) {
-        return res.status(400).json({
-          success: false,
-          error: "Email and password are required",
-        } as AuthResponse);
+        return sendResponse.error(res, "Email and password are required", 400);
       }
 
       try {
@@ -41,14 +38,12 @@ export const authController = {
         // Get the ID token
         const token = await userCredential.user.getIdToken();
 
-        return res.json({
-          success: true,
+        return sendResponse.success(res, {
           token: token,
           user: {
             uid: userCredential.user.uid,
-            email: userCredential.user.email || email,
           },
-        } as AuthResponse);
+        }, "Successfully logged in");
       } catch (error: any) {
         let errorMessage = "Username/password error";
 
@@ -67,17 +62,11 @@ export const authController = {
             errorMessage = "Username/password error";
         }
 
-        return res.status(401).json({
-          success: false,
-          error: errorMessage,
-        } as AuthResponse);
+        return sendResponse.error(res, errorMessage, 401);
       }
     } catch (error) {
       console.error("Sign in error:", error);
-      return res.status(500).json({
-        success: false,
-        error: "Internal server error",
-      } as AuthResponse);
+      return sendResponse.error(res, "Internal server error", 500);
     }
   },
 
@@ -87,26 +76,18 @@ export const authController = {
       const token = req.headers.authorization?.replace("Bearer ", "");
 
       if (!token) {
-        return res.status(401).json({
-          success: false,
-          error: "No token provided",
-        });
+        return sendResponse.error(res, "No token provided", 401);
       }
 
       const decodedToken = await adminAuth.verifyIdToken(token);
 
-      return res.json({
-        success: true,
+      return sendResponse.success(res, {
         user: {
           uid: decodedToken.uid,
-          email: decodedToken.email,
         },
-      });
+      }, "Token verified successfully");
     } catch (error) {
-      return res.status(401).json({
-        success: false,
-        error: "Invalid token",
-      });
+      return sendResponse.error(res, "Invalid token", 401);
     }
   },
 };
