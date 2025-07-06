@@ -27,13 +27,5 @@ export const RATE_LIMITS = {
   GENERAL: {
     WINDOW_MS: 15 * 60 * 1000, // 15 minutes
     MAX_REQUESTS: 100
-  },
-  AUTH: {
-    WINDOW_MS: 15 * 60 * 1000, // 15 minutes
-    MAX_REQUESTS: 5
-  },
-  UPLOAD: {
-    WINDOW_MS: 60 * 60 * 1000, // 1 hour
-    MAX_REQUESTS: 10
   }
 } as const;
