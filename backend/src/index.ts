@@ -8,10 +8,11 @@ import * as admin from "firebase-admin";
 // Import custom middleware
 import { requestLogger } from "./middleware/logger";
 import { errorHandler, notFound } from "./middleware/errorHandler";
-import { rateLimiter, requireAuth } from "./middleware/auth";
+import { rateLimiter } from "./middleware/auth";
 
 // Import routes
 import authRoutes from "./routes/authRoutes";
+import playerRoutes from "./routes/playerRoutes";
 
 // Import utilities
 import { sendResponse } from "./utils/helpers";
@@ -19,12 +20,7 @@ import { APP_CONFIG, RATE_LIMITS } from "./utils/constants";
 
 dotenv.config();
 
-// Initialize Firebase Admin
-if (!admin.apps.length) {
-  admin.initializeApp({
-    projectId: process.env.FIREBASE_PROJECT_ID,
-  });
-}
+// Firebase Admin is initialized in config/firebase.ts
 
 const app = express();
 
@@ -61,31 +57,10 @@ app.get("/api/health", (req: Request, res: Response) => {
   );
 });
 
-// Protected endpoint - requires Firebase authentication
-app.get("/api/players", requireAuth, (req: Request, res: Response) => {
-  try {
-    // Load player data from shared folder
-    const playerDataPath = path.join(
-      __dirname,
-      "../shared/data/player_data.json"
-    );
-    const playerData = require(playerDataPath);
-
-    sendResponse.success(
-      res,
-      {
-        players: playerData,
-        requestedBy: req.user?.uid,
-      },
-      "Player data retrieved successfully"
-    );
-  } catch (error) {
-    sendResponse.error(res, "Failed to load player data", 500);
-  }
-});
 
 // API routes
 app.use("/api/auth", authRoutes);
+app.use("/api/players", playerRoutes);
 
 // Handle 404 routes
 app.use(notFound);
