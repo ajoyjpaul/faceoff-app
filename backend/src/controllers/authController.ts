@@ -25,12 +25,16 @@ export const authController = {
         // Get the ID token
         const token = await userCredential.user.getIdToken();
 
-        return sendResponse.success(res, {
-          token: token,
-          user: {
-            uid: userCredential.user.uid,
+        return sendResponse.success(
+          res,
+          {
+            token: token,
+            user: {
+              uid: userCredential.user.uid,
+            },
           },
-        }, "Successfully logged in");
+          "Successfully logged in"
+        );
       } catch (error: any) {
         let errorMessage = "Username/password error";
 
@@ -68,11 +72,15 @@ export const authController = {
 
       const decodedToken = await adminAuth.verifyIdToken(token);
 
-      return sendResponse.success(res, {
-        user: {
-          uid: decodedToken.uid,
+      return sendResponse.success(
+        res,
+        {
+          user: {
+            uid: decodedToken.uid,
+          },
         },
-      }, "Token verified successfully");
+        "Token verified successfully"
+      );
     } catch (error) {
       return sendResponse.error(res, "Invalid token", 401);
     }

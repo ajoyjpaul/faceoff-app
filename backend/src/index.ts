@@ -29,6 +29,8 @@ app.use(
   cors({
     origin: process.env.ALLOWED_ORIGINS?.split(",") || [
       "http://localhost:3000",
+      "http://localhost:5173",
+      "http://localhost:5174",
     ],
     credentials: true,
   })
@@ -56,7 +58,6 @@ app.get("/api/health", (req: Request, res: Response) => {
     "Service is healthy"
   );
 });
-
 
 // API routes
 app.use("/api/auth", authRoutes);
