@@ -1,10 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { sendResponse } from '../utils/helpers';
-
-export interface ValidationSchema {
-  email?: boolean;
-  password?: boolean;
-}
+import { ValidationSchema } from '../types';
 
 export const validateRequest = (schema: ValidationSchema) => {
   return (req: Request, res: Response, next: NextFunction) => {

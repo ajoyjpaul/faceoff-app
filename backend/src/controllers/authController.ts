@@ -2,20 +2,7 @@ import { Request, Response } from "express";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { clientAuth, adminAuth } from "../config/firebase";
 import { sendResponse } from "../utils/helpers";
-
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-export interface AuthResponse {
-  success: boolean;
-  error?: string;
-  token?: string;
-  user?: {
-    uid: string;
-  };
-}
+import { LoginRequest, AuthResponse } from "../types";
 
 export const authController = {
   // Sign in with email and password
