@@ -70,5 +70,5 @@ app.use(notFound);
 // Global error handler (must be last)
 app.use(errorHandler);
 
-// Export the app as a Google Cloud Function
-http("faceoffApi", app);
+// Export the Express app for Vercel
+export default app;
