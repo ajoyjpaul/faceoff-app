@@ -18,8 +18,24 @@
                 <h3 class="selection-title">Compare Players</h3>
               </div>
 
+              <!-- Loading State -->
+              <div v-if="isLoading" class="text-center py-4">
+                <div class="spinner-border text-warning" role="status">
+                  <span class="visually-hidden">Loading players...</span>
+                </div>
+                <p class="mt-2 text-muted">Loading players...</p>
+              </div>
+
+              <!-- Error State -->
+              <div v-else-if="error" class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Error loading players</h4>
+                <p>{{ error }}</p>
+                <hr>
+                <p class="mb-0">Please check your connection and try again.</p>
+              </div>
+
               <!-- Player Selection Dropdowns -->
-              <div class="player-selections">
+              <div v-else class="player-selections">
                 <PlayerSelector
                   v-for="(player, index) in selectedPlayers"
                   :key="`player-${index}`"
@@ -109,7 +125,9 @@ const {
 const {
   getAvailablePlayersBySeason,
   getAvailablePlayersCount,
-  getPlayerInitials
+  getPlayerInitials,
+  isLoading,
+  error
 } = usePlayerData()
 
 const availablePlayersCount = computed(() => 

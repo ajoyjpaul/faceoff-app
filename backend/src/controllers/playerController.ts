@@ -9,7 +9,7 @@ export const playerController = {
       // Secure path to player data
       const playerDataPath = path.join(
         process.cwd(),
-        "shared/data/player_data.json"
+        "../shared/data/player_data.json"
       );
       const playerData = require(playerDataPath);
 
