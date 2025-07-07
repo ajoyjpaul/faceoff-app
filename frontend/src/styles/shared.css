@@ -1,0 +1,40 @@
+/* Shared form styles */
+.form-input {
+  background-color: var(--color-input-bg);
+  border: 1px solid var(--color-input-border);
+  color: var(--color-input-text);
+  padding: 15px 16px;
+  font-size: 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.form-input:focus {
+  background-color: var(--color-input-bg);
+  border-color: var(--color-penguins-gold);
+  box-shadow: 0 0 0 0.2rem var(--color-penguins-gold-shadow);
+  color: var(--color-input-text);
+  outline: none;
+}
+
+.form-input::placeholder {
+  color: var(--color-input-placeholder);
+}
+
+.form-input:disabled {
+  background-color: var(--color-input-disabled-bg);
+  border-color: var(--color-input-disabled-border);
+  color: var(--color-input-disabled-text);
+  cursor: not-allowed;
+}
+
+/* Alert styles */
+.alert-danger {
+  background-color: var(--color-danger);
+  border: 1px solid var(--color-danger);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+}

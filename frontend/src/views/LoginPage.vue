@@ -13,7 +13,7 @@
           <input
             v-model="email"
             type="email"
-            class="form-control login-input"
+            class="form-control form-input"
             placeholder="Email"
             required
             :disabled="isLoading"
@@ -24,7 +24,7 @@
           <input
             v-model="password"
             type="password"
-            class="form-control login-input"
+            class="form-control form-input"
             placeholder="Password"
             required
             :disabled="isLoading"
@@ -35,10 +35,15 @@
           {{ error }}
         </div>
 
-        <button type="submit" class="btn btn-gold w-100 mb-3" :disabled="isLoading">
-          <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        <BaseButton 
+          type="submit" 
+          variant="primary" 
+          :loading="isLoading" 
+          fullWidth 
+          class="mb-3"
+        >
           {{ isLoading ? 'Signing in...' : 'Sign in' }}
-        </button>
+        </BaseButton>
         
       </form>
     </div>
@@ -46,61 +51,30 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { authService } from '../services/authService';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuth } from '../composables/useAuth'
+import BaseButton from '../components/BaseButton.vue'
 
-const router = useRouter();
-const email = ref('');
-const password = ref('');
-const error = ref('');
-const isLoading = ref(false);
+const router = useRouter()
+const email = ref('')
+const password = ref('')
+
+const { isLoading, error, signIn } = useAuth()
 
 async function login() {
-  if (!email.value || !password.value) {
-    error.value = 'Please enter both email and password';
-    return;
-  }
-
-  error.value = '';
-  isLoading.value = true;
-
-  try {
-    const result = await authService.signIn(email.value, password.value);
-    
-    if (result.success) {
-      // Redirect to comparison page on successful login
-      router.push('/compare');
-    } else {
-      error.value = result.error || 'Username/password error';
-    }
-  } catch (err) {
-    error.value = 'Username/password error';
-  } finally {
-    isLoading.value = false;
+  const result = await signIn(email.value, password.value)
+  
+  if (result.success) {
+    router.push('/compare')
   }
 }
 </script>
 
-<style>
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-}
-
-#app {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100vw;
-}
-</style>
 
 <style scoped>
 .login-container {
-  background-color: #000000;
+  background-color: var(--color-bg-primary);
   height: 100vh;
   width: 100vw;
   padding: 20px;
@@ -112,7 +86,7 @@ html, body {
 }
 
 .login-form {
-  background-color: #1a1a1a;
+  background-color: var(--color-bg-secondary);
   padding: 40px 30px;
   width: 100%;
   max-width: 400px;
@@ -131,74 +105,7 @@ html, body {
   font-size: 1.8rem;
   font-weight: 400;
   margin: 0;
-}
-
-.login-input {
-  background-color: #2a2a2a !important;
-  border: 1px solid #404040 !important;
-  color: #ffffff !important;
-  padding: 15px 16px;
-  font-size: 16px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.login-input:focus {
-  background-color: #2a2a2a !important;
-  border-color: #FFB81C !important;
-  box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25) !important;
-  color: #ffffff !important;
-  outline: none;
-}
-
-.login-input::placeholder {
-  color: #999999;
-}
-
-.btn-gold {
-  background-color: #FFB81C;
-  border: none;
-  color: #000000;
-  font-weight: 600;
-  padding: 15px;
-  font-size: 16px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.btn-gold:hover {
-  background-color: #ffed4e;
-  color: #000000;
-  transform: translateY(-1px);
-}
-
-.btn-gold:focus {
-  background-color: #FFB81C;
-  color: #000000;
-  box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.5);
-}
-
-.btn-gold:disabled {
-  background-color: #cccccc;
-  color: #666666;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.alert-danger {
-  background-color: #dc3545;
-  border: 1px solid #dc3545;
-  color: #ffffff;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.login-input:disabled {
-  background-color: #1a1a1a !important;
-  border-color: #2a2a2a !important;
-  color: #666666 !important;
-  cursor: not-allowed;
+  color: var(--color-text-primary);
 }
 
 @media (max-width: 576px) {
