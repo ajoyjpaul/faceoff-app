@@ -20,28 +20,26 @@
 
               <!-- Player Selection Dropdowns -->
               <div class="player-selections">
-                <div v-for="(player, index) in selectedPlayers" :key="`player-${index}`" class="player-selection-row mb-3">
-                  <div class="d-flex align-items-center">
-                    <div class="player-number">{{ index + 1 }}</div>
-                    <select v-model="selectedPlayers[index]" class="form-select player-select flex-grow-1" @change="calculateBestStats">
-                      <option value="">Select a player...</option>
-                      <optgroup v-for="(seasonPlayers, season) in getAvailablePlayersBySeason(index)" :key="season" :label="`${season} Season`">
-                        <option v-for="player in seasonPlayers" :key="`${player.season}-${player.player_name}`" :value="player">
-                          {{ player.season }} {{ player.player_name }} ({{ player.team }})
-                        </option>
-                      </optgroup>
-                    </select>
-                    <button class="btn btn-outline-danger ms-2 remove-btn" @click="removePlayer(index)">
-                      <i class="fas fa-trash-alt"></i>
-                    </button>
-                  </div>
-                </div>
+                <PlayerSelector
+                  v-for="(player, index) in selectedPlayers"
+                  :key="`player-${index}`"
+                  :index="index"
+                  :selected-player="player"
+                  :available-players-by-season="getAvailablePlayersBySeasonForIndex(index)"
+                  @update="updatePlayer"
+                  @remove="removePlayer"
+                />
 
                 <!-- Add Player Button -->
                 <div class="d-flex align-items-center mt-4">
                   <div class="player-number-placeholder"></div>
                   <div class="add-button-container">
-                    <button class="btn add-player-btn-rectangle" @click="addPlayer" :disabled="availablePlayers.length === 0" title="Add Player">
+                    <button 
+                      class="btn add-player-btn-rectangle" 
+                      @click="addPlayer" 
+                      :disabled="availablePlayersCount === 0" 
+                      title="Add Player"
+                    >
                       Add Player
                     </button>
                   </div>
@@ -54,127 +52,23 @@
             <div v-if="selectedPlayersData.length > 0" class="comparison-section">
               <div class="players-grid">
                 <div v-for="(player, index) in selectedPlayersData" :key="`card-${index}`" class="player-card-wrapper">
-                  <div class="player-card">
-                    <div class="player-header">
-                      <div class="player-avatar">
-                        <span class="player-initials">{{ getPlayerInitials(player.player_name) }}</span>
-                      </div>
-                      <div class="player-info">
-                        <h3 class="player-name">{{ player.player_name }}</h3>
-                        <p class="player-season">{{ player.season }} Season - {{ player.team }}</p>
-                      </div>
-                    </div>
-                    <div class="stats-grid">
-                      <div class="stat-item">
-                        <span class="stat-label">Games Played</span>
-                        <span class="stat-value" :class="{ 'best-stat': isBestStat('gp', player.gp) }">{{ player.gp }}</span>
-                      </div>
-                      <div class="stat-item">
-                        <span class="stat-label">Goals</span>
-                        <span class="stat-value" :class="{ 'best-stat': isBestStat('goals', player.goals) }">{{ player.goals }}</span>
-                      </div>
-                      <div class="stat-item">
-                        <span class="stat-label">Assists</span>
-                        <span class="stat-value" :class="{ 'best-stat': isBestStat('assists', player.assists) }">{{ player.assists }}</span>
-                      </div>
-                      <div class="stat-item">
-                        <span class="stat-label">Points</span>
-                        <span class="stat-value" :class="{ 'best-stat': isBestStat('points', player.points) }">{{ player.points }}</span>
-                      </div>
-                      <div class="stat-item">
-                        <span class="stat-label">Shots</span>
-                        <span class="stat-value" :class="{ 'best-stat': isBestStat('shots', player.shots) }">{{ player.shots }}</span>
-                      </div>
-                      <div class="stat-item">
-                        <span class="stat-label">TOI</span>
-                        <span class="stat-value" :class="{ 'best-stat': isBestStat('toi', parseTimeToMinutes(player.toi)) }">{{ player.toi }}</span>
-                      </div>
-                      <div class="stat-item">
-                        <span class="stat-label">Scouting Grade</span>
-                        <span class="stat-value" :class="{ 'best-stat': isBestStat('scouting_grade', player.scouting_grade) }">{{ player.scouting_grade }}</span>
-                      </div>
-                    </div>
-                  </div>
+                  <PlayerCard
+                    :player="player"
+                    :is-best-stat="isBestStat"
+                    :parse-time-to-minutes="parseTimeToMinutes"
+                    :get-player-initials="getPlayerInitials"
+                  />
                 </div>
               </div>
 
               <!-- Comparison Table -->
-              <div class="comparison-stats mt-5" v-if="selectedPlayersData.length > 1">
-                <h3 class="section-title mb-4">Statistical Comparison</h3>
-                <div class="comparison-table-container">
-                  <!-- Scroll Indicators -->
-                  <div v-if="showLeftArrow" class="scroll-indicator-left" @click="scrollLeft">
-                    <i class="fas fa-chevron-left"></i>
-                  </div>
-                  <div v-if="showRightArrow" class="scroll-indicator-right" @click="scrollRight">
-                    <i class="fas fa-chevron-right"></i>
-                  </div>
-                  
-                  <div class="comparison-table-wrapper" ref="tableWrapper" @scroll="handleScroll">
-                    <table class="comparison-table">
-                    <thead>
-                      <tr>
-                        <th>Statistic</th>
-                        <th v-for="(player, index) in selectedPlayersData" :key="`header-${index}`">
-                          {{ player.season }} {{ player.player_name }}
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td class="stat-name">Games Played</td>
-                        <td v-for="(player, index) in selectedPlayersData" :key="`gp-${index}`" 
-                            :class="{ 'best-stat-cell': isBestStat('gp', player.gp) }">
-                          {{ player.gp }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="stat-name">Goals</td>
-                        <td v-for="(player, index) in selectedPlayersData" :key="`goals-${index}`" 
-                            :class="{ 'best-stat-cell': isBestStat('goals', player.goals) }">
-                          {{ player.goals }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="stat-name">Assists</td>
-                        <td v-for="(player, index) in selectedPlayersData" :key="`assists-${index}`" 
-                            :class="{ 'best-stat-cell': isBestStat('assists', player.assists) }">
-                          {{ player.assists }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="stat-name">Points</td>
-                        <td v-for="(player, index) in selectedPlayersData" :key="`points-${index}`" 
-                            :class="{ 'best-stat-cell': isBestStat('points', player.points) }">
-                          {{ player.points }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="stat-name">Shots</td>
-                        <td v-for="(player, index) in selectedPlayersData" :key="`shots-${index}`" 
-                            :class="{ 'best-stat-cell': isBestStat('shots', player.shots) }">
-                          {{ player.shots }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="stat-name">TOI</td>
-                        <td v-for="(player, index) in selectedPlayersData" :key="`toi-${index}`" 
-                            :class="{ 'best-stat-cell': isBestStat('toi', parseTimeToMinutes(player.toi)) }">
-                          {{ player.toi }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="stat-name">Scouting Grade</td>
-                        <td v-for="(player, index) in selectedPlayersData" :key="`scouting-${index}`" 
-                            :class="{ 'best-stat-cell': isBestStat('scouting_grade', player.scouting_grade) }">
-                          {{ player.scouting_grade }}
-                        </td>
-                      </tr>
-                    </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
+              <ComparisonTable
+                v-if="selectedPlayersData.length > 1"
+                ref="comparisonTable"
+                :players="selectedPlayersData"
+                :is-best-stat="isBestStat"
+                :parse-time-to-minutes="parseTimeToMinutes"
+              />
             </div>
 
             <!-- Empty State -->
@@ -186,203 +80,63 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, nextTick } from 'vue'
-import playerData from '../../../shared/data/player_data.json'
+import { ref, computed, watch } from 'vue'
+import PlayerCard from '../components/PlayerCard.vue'
+import PlayerSelector from '../components/PlayerSelector.vue'
+import ComparisonTable from '../components/ComparisonTable.vue'
+import { usePlayerComparison } from '../composables/usePlayerComparison'
+import { usePlayerData } from '../composables/usePlayerData'
+import type { Player } from '../types'
 
-interface Player {
-  season: number
-  player_name: string
-  team: string
-  gp: number
-  toi: string
-  shots: number
-  goals: number
-  assists: number
-  points: number
-  scouting_grade: number
+const comparisonTable = ref<InstanceType<typeof ComparisonTable> | null>(null)
+
+const {
+  selectedPlayers,
+  selectedPlayersData,
+  parseTimeToMinutes,
+  calculateBestStats,
+  isBestStat,
+  addPlayer: addPlayerToComparison,
+  removePlayer: removePlayerFromComparison
+} = usePlayerComparison()
+
+const {
+  getAvailablePlayersBySeason,
+  getAvailablePlayersCount,
+  getPlayerInitials
+} = usePlayerData()
+
+const availablePlayersCount = computed(() => 
+  getAvailablePlayersCount(selectedPlayersData.value)
+)
+
+const getAvailablePlayersBySeasonForIndex = (index: number) => 
+  getAvailablePlayersBySeason(index, selectedPlayers.value, selectedPlayersData.value)
+
+const updatePlayer = (index: number, player: Player | string) => {
+  selectedPlayers.value[index] = player
+  calculateBestStats()
 }
-
-const selectedPlayers = ref<(Player | string)[]>(['', ''])
-const bestStats = ref<Record<string, number>>({})
-const tableWrapper = ref<HTMLElement | null>(null)
-const showLeftArrow = ref(false)
-const showRightArrow = ref(false)
-
-const allPlayersGrouped = computed(() => {
-  const grouped: Record<number, Player[]> = {}
-  
-  playerData.forEach((player: Player) => {
-    if (!grouped[player.season]) {
-      grouped[player.season] = []
-    }
-    grouped[player.season].push(player)
-  })
-
-  // Sort players within each season by name
-  Object.keys(grouped).forEach(season => {
-    grouped[Number(season)].sort((a, b) => a.player_name.localeCompare(b.player_name))
-  })
-
-  // Sort seasons in descending order (newest first)
-  const sortedGrouped: Record<number, Player[]> = {}
-  Object.keys(grouped)
-    .map(Number)
-    .sort((a, b) => b - a)
-    .forEach(season => {
-      sortedGrouped[season] = grouped[season]
-    })
-
-  return sortedGrouped
-})
-
-const getSelectedPlayerKeys = () => {
-  return selectedPlayersData.value.map(player => `${player.season}-${player.player_name}`)
-}
-
-const getAvailablePlayersBySeason = (currentIndex: number) => {
-  const selectedKeys = getSelectedPlayerKeys()
-  const currentPlayer = selectedPlayers.value[currentIndex]
-  const currentKey = typeof currentPlayer === 'object' && currentPlayer !== null 
-    ? `${currentPlayer.season}-${currentPlayer.player_name}` 
-    : null
-
-  const availableGrouped: Record<number, Player[]> = {}
-
-  Object.entries(allPlayersGrouped.value).forEach(([season, players]) => {
-    const availablePlayers = players.filter(player => {
-      const playerKey = `${player.season}-${player.player_name}`
-      return !selectedKeys.includes(playerKey) || playerKey === currentKey
-    })
-    
-    if (availablePlayers.length > 0) {
-      availableGrouped[Number(season)] = availablePlayers
-    }
-  })
-
-  return availableGrouped
-}
-
-const availablePlayers = computed(() => {
-  const selectedKeys = getSelectedPlayerKeys()
-  return playerData.filter(player => {
-    const playerKey = `${player.season}-${player.player_name}`
-    return !selectedKeys.includes(playerKey)
-  })
-})
-
-const selectedPlayersData = computed(() => {
-  return selectedPlayers.value.filter((player): player is Player => 
-    typeof player === 'object' && player !== null
-  )
-})
 
 const addPlayer = () => {
-  if (availablePlayers.value.length > 0) {
-    selectedPlayers.value.push('')
-  }
+  addPlayerToComparison(availablePlayersCount.value)
 }
 
 const removePlayer = (index: number) => {
-  selectedPlayers.value.splice(index, 1)
-  calculateBestStats()
+  removePlayerFromComparison(index)
 }
 
-const parseTimeToMinutes = (toi: string): number => {
-  // Parse time formats like "612:32" or "1114:56" to total minutes
-  if (!toi || typeof toi !== 'string') return 0
-  
-  const cleanToi = toi.replace(/[^\d:]/g, '') // Remove any non-digit, non-colon characters
-  const parts = cleanToi.split(':')
-  
-  if (parts.length >= 2) {
-    const minutes = parseInt(parts[0]) || 0
-    const seconds = parseInt(parts[1]) || 0
-    return minutes + (seconds / 60)
-  }
-  
-  return 0
-}
-
-const calculateBestStats = () => {
-  const players = selectedPlayersData.value
-  if (players.length === 0) return
-
-  const newBestStats: Record<string, number> = {}
-
-  // Stats where higher is better
-  const higherIsBetter = ['gp', 'goals', 'assists', 'points', 'shots']
-  higherIsBetter.forEach(stat => {
-    const values = players.map(player => player[stat as keyof Player] as number)
-    newBestStats[stat] = Math.max(...values)
-  })
-
-  // Scouting grade - lower is better
-  const scoutingValues = players.map(player => player.scouting_grade)
-  newBestStats['scouting_grade'] = Math.min(...scoutingValues)
-
-  // Handle TOI separately since it's a string that needs parsing - higher is better
-  const toiValues = players.map(player => parseTimeToMinutes(player.toi))
-  newBestStats['toi'] = Math.max(...toiValues)
-
-  bestStats.value = newBestStats
-}
-
-const isBestStat = (statName: string, value: number) => {
-  return selectedPlayersData.value.length > 1 && bestStats.value[statName] === value
-}
-
-const getPlayerInitials = (name: string) => {
-  const parts = name.split(', ')
-  if (parts.length === 2) {
-    const lastName = parts[0]
-    const firstName = parts[1]
-    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase()
-  }
-  return name.split(' ').map(n => n.charAt(0)).join('').toUpperCase().slice(0, 2)
-}
-
-const handleScroll = () => {
-  if (!tableWrapper.value) return
-  
-  const { scrollLeft, scrollWidth, clientWidth } = tableWrapper.value
-  
-  // Show left arrow if scrolled right from the beginning
-  showLeftArrow.value = scrollLeft > 0
-  
-  // Show right arrow if there's more content to scroll
-  showRightArrow.value = scrollLeft < (scrollWidth - clientWidth - 1)
-}
-
-const scrollLeft = () => {
-  if (tableWrapper.value) {
-    tableWrapper.value.scrollBy({ left: -200, behavior: 'smooth' })
-  }
-}
-
-const scrollRight = () => {
-  if (tableWrapper.value) {
-    tableWrapper.value.scrollBy({ left: 200, behavior: 'smooth' })
-  }
-}
-
-const updateScrollIndicators = async () => {
-  await nextTick()
-  handleScroll()
-}
-
-
-// Watch for changes in selected players and recalculate best stats
 watch(selectedPlayersData, () => {
   calculateBestStats()
-  updateScrollIndicators()
+  if (comparisonTable.value) {
+    comparisonTable.value.updateScrollIndicators()
+  }
 }, { deep: true })
 
-// Initialize with empty calculation
 calculateBestStats()
 </script>
 

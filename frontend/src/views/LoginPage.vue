@@ -46,38 +46,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { authService } from '../services/authService';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuth } from '../composables/useAuth'
 
-const router = useRouter();
-const email = ref('');
-const password = ref('');
-const error = ref('');
-const isLoading = ref(false);
+const router = useRouter()
+const email = ref('')
+const password = ref('')
+
+const { isLoading, error, signIn } = useAuth()
 
 async function login() {
-  if (!email.value || !password.value) {
-    error.value = 'Please enter both email and password';
-    return;
-  }
-
-  error.value = '';
-  isLoading.value = true;
-
-  try {
-    const result = await authService.signIn(email.value, password.value);
-    
-    if (result.success) {
-      // Redirect to comparison page on successful login
-      router.push('/compare');
-    } else {
-      error.value = result.error || 'Username/password error';
-    }
-  } catch (err) {
-    error.value = 'Username/password error';
-  } finally {
-    isLoading.value = false;
+  const result = await signIn(email.value, password.value)
+  
+  if (result.success) {
+    router.push('/compare')
   }
 }
 </script>

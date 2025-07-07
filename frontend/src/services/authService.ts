@@ -1,12 +1,4 @@
-export interface AuthResult {
-  success: boolean;
-  error?: string;
-  token?: string;
-  user?: {
-    uid: string;
-    email: string;
-  };
-}
+import type { AuthResult } from "../types";
 
 const API_BASE_URL = "http://localhost:3000/api";
 
@@ -22,10 +14,24 @@ export const authService = {
         body: JSON.stringify({ email, password }),
       });
 
+      if (!response.ok) {
+        if (response.status === 404) {
+          return {
+            success: false,
+            error: "Backend server not found.",
+          };
+        }
+        if (response.status >= 500) {
+          return {
+            success: false,
+            error: "Server error. Please try again later.",
+          };
+        }
+      }
+
       const data = await response.json();
 
       if (data.success) {
-        // Store token in localStorage
         localStorage.setItem("authToken", data.token);
         return data;
       } else {
@@ -35,6 +41,15 @@ export const authService = {
         };
       }
     } catch (error) {
+      console.error("Auth service error:", error);
+
+      if (error instanceof TypeError && error.message.includes("fetch")) {
+        return {
+          success: false,
+          error: "Cannot connect to server.",
+        };
+      }
+
       return {
         success: false,
         error: "Network error. Please try again.",
