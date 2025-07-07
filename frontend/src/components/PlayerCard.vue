@@ -10,53 +10,20 @@
       </div>
     </div>
     <div class="stats-grid">
-      <div class="stat-item">
-        <span class="stat-label">Games Played</span>
-        <span class="stat-value" :class="{ 'best-stat': isBestStat('gp', player.gp) }">
-          {{ player.gp }}
-        </span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-label">Goals</span>
-        <span class="stat-value" :class="{ 'best-stat': isBestStat('goals', player.goals) }">
-          {{ player.goals }}
-        </span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-label">Assists</span>
-        <span class="stat-value" :class="{ 'best-stat': isBestStat('assists', player.assists) }">
-          {{ player.assists }}
-        </span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-label">Points</span>
-        <span class="stat-value" :class="{ 'best-stat': isBestStat('points', player.points) }">
-          {{ player.points }}
-        </span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-label">Shots</span>
-        <span class="stat-value" :class="{ 'best-stat': isBestStat('shots', player.shots) }">
-          {{ player.shots }}
-        </span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-label">TOI</span>
-        <span class="stat-value" :class="{ 'best-stat': isBestStat('toi', parseTimeToMinutes(player.toi)) }">
-          {{ player.toi }}
-        </span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-label">Scouting Grade</span>
-        <span class="stat-value" :class="{ 'best-stat': isBestStat('scouting_grade', player.scouting_grade) }">
-          {{ player.scouting_grade }}
-        </span>
-      </div>
+      <StatItem
+        v-for="stat in playerStats"
+        :key="stat.key"
+        :label="stat.label"
+        :value="stat.value"
+        :is-best="stat.isBest"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+import StatItem from './StatItem.vue'
 import type { Player } from '../types'
 
 interface Props {
@@ -66,12 +33,55 @@ interface Props {
   getPlayerInitials: (name: string) => string
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+
+const playerStats = computed(() => [
+  {
+    key: 'gp',
+    label: 'Games Played',
+    value: props.player.gp,
+    isBest: props.isBestStat('gp', props.player.gp)
+  },
+  {
+    key: 'goals',
+    label: 'Goals',
+    value: props.player.goals,
+    isBest: props.isBestStat('goals', props.player.goals)
+  },
+  {
+    key: 'assists',
+    label: 'Assists',
+    value: props.player.assists,
+    isBest: props.isBestStat('assists', props.player.assists)
+  },
+  {
+    key: 'points',
+    label: 'Points',
+    value: props.player.points,
+    isBest: props.isBestStat('points', props.player.points)
+  },
+  {
+    key: 'shots',
+    label: 'Shots',
+    value: props.player.shots,
+    isBest: props.isBestStat('shots', props.player.shots)
+  },
+  {
+    key: 'toi',
+    label: 'TOI',
+    value: props.player.toi,
+    isBest: props.isBestStat('toi', props.parseTimeToMinutes(props.player.toi))
+  },
+  {
+    key: 'scouting_grade',
+    label: 'Scouting Grade',
+    value: props.player.scouting_grade,
+    isBest: props.isBestStat('scouting_grade', props.player.scouting_grade)
+  }
+])
 </script>
 
 <style scoped>
-/* All player card styles are now in /styles/components.css */
-/* Only component-specific overrides remain here */
 
 @media (max-width: 768px) {
   .stats-grid {
