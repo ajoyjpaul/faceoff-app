@@ -4,6 +4,15 @@ import dotenv from "dotenv";
 import path from "path";
 import * as admin from "firebase-admin";
 
+// Add error logging
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
 // Import custom middleware
 import { requestLogger } from "./middleware/logger";
 import { errorHandler, notFound } from "./middleware/errorHandler";
@@ -44,6 +53,11 @@ app.use(
 
 // Logging middleware
 app.use(requestLogger);
+
+// Simple test endpoint
+app.get("/api/test", (req: Request, res: Response) => {
+  res.json({ message: "Backend is working", timestamp: new Date().toISOString() });
+});
 
 // Health check endpoint
 app.get("/api/health", (req: Request, res: Response) => {
