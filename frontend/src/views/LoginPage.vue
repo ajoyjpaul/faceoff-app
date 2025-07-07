@@ -13,7 +13,7 @@
           <input
             v-model="email"
             type="email"
-            class="form-control login-input"
+            class="form-control form-input"
             placeholder="Email"
             required
             :disabled="isLoading"
@@ -24,7 +24,7 @@
           <input
             v-model="password"
             type="password"
-            class="form-control login-input"
+            class="form-control form-input"
             placeholder="Password"
             required
             :disabled="isLoading"
@@ -71,25 +71,10 @@ async function login() {
 }
 </script>
 
-<style>
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-}
-
-#app {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100vw;
-}
-</style>
 
 <style scoped>
 .login-container {
-  background-color: #000000;
+  background-color: var(--color-bg-primary);
   height: 100vh;
   width: 100vw;
   padding: 20px;
@@ -101,7 +86,7 @@ html, body {
 }
 
 .login-form {
-  background-color: #1a1a1a;
+  background-color: var(--color-bg-secondary);
   padding: 40px 30px;
   width: 100%;
   max-width: 400px;
@@ -120,45 +105,7 @@ html, body {
   font-size: 1.8rem;
   font-weight: 400;
   margin: 0;
-}
-
-.login-input {
-  background-color: #2a2a2a !important;
-  border: 1px solid #404040 !important;
-  color: #ffffff !important;
-  padding: 15px 16px;
-  font-size: 16px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.login-input:focus {
-  background-color: #2a2a2a !important;
-  border-color: #FFB81C !important;
-  box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25) !important;
-  color: #ffffff !important;
-  outline: none;
-}
-
-.login-input::placeholder {
-  color: #999999;
-}
-
-
-.alert-danger {
-  background-color: #dc3545;
-  border: 1px solid #dc3545;
-  color: #ffffff;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.login-input:disabled {
-  background-color: #1a1a1a !important;
-  border-color: #2a2a2a !important;
-  color: #666666 !important;
-  cursor: not-allowed;
+  color: var(--color-text-primary);
 }
 
 @media (max-width: 576px) {

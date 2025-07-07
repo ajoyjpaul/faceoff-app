@@ -1,0 +1,48 @@
+/* Main application CSS variables and global styles */
+:root {
+  /* Brand colors */
+  --color-penguins-gold: #fcb514;
+  --color-penguins-gold-hover: #f39c12;
+  --color-penguins-gold-shadow: rgba(252, 181, 20, 0.25);
+  
+  /* Background colors */
+  --color-bg-primary: #000000;
+  --color-bg-secondary: #1a1a1a;
+  --color-bg-tertiary: #2a2a2a;
+  
+  /* Text colors */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #cccccc;
+  --color-text-muted: #999999;
+  --color-text-disabled: #666666;
+  
+  /* Form input colors */
+  --color-input-bg: #2a2a2a;
+  --color-input-border: #404040;
+  --color-input-text: #ffffff;
+  --color-input-placeholder: #999999;
+  --color-input-disabled-bg: #1a1a1a;
+  --color-input-disabled-border: #2a2a2a;
+  --color-input-disabled-text: #666666;
+  
+  /* Alert colors */
+  --color-danger: #dc3545;
+  --color-success: #28a745;
+  --color-warning: #ffc107;
+  --color-info: #17a2b8;
+}
+
+/* Global resets for the app */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+#app {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+}
