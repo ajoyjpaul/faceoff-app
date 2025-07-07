@@ -7,10 +7,7 @@ export const playerController = {
   async getPlayers(req: Request, res: Response) {
     try {
       // Secure path to player data
-      const playerDataPath = path.join(
-        process.cwd(),
-        "../shared/data/player_data.json"
-      );
+      const playerDataPath = path.join(__dirname, "../data/player_data.json");
       const playerData = require(playerDataPath);
 
       sendResponse.success(
