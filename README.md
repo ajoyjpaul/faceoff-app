@@ -39,7 +39,7 @@ cd ../backend && npm install
 cd frontend && npm run dev
 
 # Terminal 2 - Backend (http://localhost:3000) 
-cd backend && npm run dev
+cd backend && npm run local
 ```
 
 ## Testing
