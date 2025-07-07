@@ -1,12 +1,30 @@
-import { computed } from 'vue'
-import playerData from '../../../shared/data/player_data.json'
+import { computed, ref, onMounted } from 'vue'
 import type { Player } from '../types/player'
+import { playerService } from '../services/playerService'
 
 export function usePlayerData() {
+  const playerData = ref<Player[]>([])
+  const isLoading = ref(true)
+  const error = ref<string | null>(null)
+
+  const loadPlayers = async () => {
+    try {
+      isLoading.value = true
+      error.value = null
+      playerData.value = await playerService.getPlayers()
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'Failed to load players'
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  onMounted(loadPlayers)
+
   const allPlayersGrouped = computed(() => {
     const grouped: Record<number, Player[]> = {}
     
-    playerData.forEach((player: Player) => {
+    playerData.value.forEach((player: Player) => {
       if (!grouped[player.season]) {
         grouped[player.season] = []
       }
@@ -61,7 +79,7 @@ export function usePlayerData() {
 
   const getAvailablePlayersCount = (selectedPlayersData: Player[]) => {
     const selectedKeys = getSelectedPlayerKeys(selectedPlayersData)
-    return playerData.filter(player => {
+    return playerData.value.filter(player => {
       const playerKey = `${player.season}-${player.player_name}`
       return !selectedKeys.includes(playerKey)
     }).length
@@ -81,6 +99,9 @@ export function usePlayerData() {
     allPlayersGrouped,
     getAvailablePlayersBySeason,
     getAvailablePlayersCount,
-    getPlayerInitials
+    getPlayerInitials,
+    isLoading,
+    error,
+    loadPlayers
   }
 }
