@@ -32,6 +32,10 @@ dotenv.config();
 
 const app = express();
 
+// Body parsing middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // Security middleware
 app.use(
   cors({
