@@ -1,136 +1,94 @@
-# FaceOff AI - Hockey Analytics Platform
+# FaceOff - Hockey Player Comparison Tool
 
-A powerful interactive web application that provides AI-powered insights about NHL hockey using real 2024-25 season roster data.
+A Vue.js application for comparing NHL player statistics with interactive visualizations.
 
-### Video Demo
+## Tech Stack
 
-## ⚠️ Disclaimer
-
-**This project is not affiliated with the NHL or any hockey organization.** This is an independent, educational project created for entertainment and learning purposes only.
-
-**"NHL" and team names are trademarks of their respective owners.** All trademarks, logos, and team names are the property of their respective owners.
-
-## 🎯 About This Project
-
-This is a **hockey analytics platform** that combines:
-
-- Modern web development technologies
-- AI/LLM integration via OpenRouter
-- Real NHL roster data
-- Interactive user experience
-
-The app allows users to ask natural language questions about NHL teams' 2024-25 roster and get detailed, data-driven responses using Meta's LLaMA 3.3-8B model.
-
-### Tech Stack
-
-- **Frontend**: Vue.js 3 + TypeScript + Bootstrap CSS
-- **Backend**: Node.js + Express + TypeScript
-- **AI**: OpenRouter API (Meta LLaMA 3.3-8B)
+- **Frontend**: Vue.js 3 + TypeScript + Bootstrap
+- **Backend**: Node.js + Express + TypeScript  
 - **Authentication**: Firebase Auth
-- **Data**: Static JSON roster data from NHL API
+- **Testing**: Vitest + Vue Test Utils
+- **Data**: Real NHL player statistics (JSON)
 
-### Key Features
+## Features
 
-1. **Roster Display**: Interactive tables showing players, stats, and positions
-2. **AI Chat Interface**: Natural language queries about team data
-3. **Authentication**: Secure login system with Firebase
-4. **Responsive Design**: Mobile-friendly UI with hockey theming
-5. **Real-time Data**: Uses actual 2024-25 season statistics
+- **Player Comparison**: Select multiple players and compare their stats
+- **Interactive Cards**: Player cards with season stats and highlights
+- **Comparison Table**: Side-by-side statistical comparison
+- **Best Stats Highlighting**: Automatically highlights top performers
+- **Responsive Design**: Works on desktop and mobile
 
-### Data Flow
-
-1. **User Authentication**: Firebase handles user login/logout
-2. **Roster Data**: Static JSON file with complete player statistics
-3. **AI Queries**:
-   - User submits question via frontend
-   - Backend receives request and adds complete roster context
-   - OpenRouter API processes query with full team data
-   - AI response formatted with markdown
-   - Frontend renders formatted response
-
-### AI Integration
-
-- Uses OpenRouter's API to access Meta LLaMA 3.3-8B model
-- Complete 2024-25 roster data injected into every AI request
-- AI prompted to format responses with markdown
-- Supports hockey-specific queries about lineups, stats, comparisons
-
-## 📊 Features
-
-- **Interactive Roster Tables**: View forwards, defensemen, and goalies with detailed stats
-- **AI-Powered Insights**: Ask questions like:
-  - "Who are the top scorers on the team?"
-  - "Compare player performances this season"
-  - "What's the best line combination?"
-  - "How are the goalies performing?"
-- **Markdown Formatting**: AI responses include proper formatting with headers, lists, and emphasis
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
-
-### Future Additions
-
-- Real-time data updates from NHL API
-- Multi-team support
-- Advanced analytics and visualizations
-- Performance comparisons across teams
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
-
-- Node.js (v18 or higher)
+- Node.js (v18+)
 - npm or yarn
-- Firebase project setup
-- OpenRouter API key
 
 ### Installation
 
-1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd faceoff-app
+# Install dependencies
+cd frontend && npm install
+cd ../backend && npm install
+
+# Set up environment variables
+# Create backend/.env with Firebase config
+
+# Start development servers
+# Terminal 1 - Frontend (http://localhost:5173)
+cd frontend && npm run dev
+
+# Terminal 2 - Backend (http://localhost:3000) 
+cd backend && npm run dev
 ```
 
-2. Install all dependencies:
-```bash
-npm run install:all
-```
+## Testing
 
-3. Set up environment variables:
-```bash
-# Backend - create backend/.env
-OPENROUTER_API_KEY=your_openrouter_api_key
-FIREBASE_API_KEY=your_firebase_api_key
-FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-FIREBASE_PROJECT_ID=your_project_id
-# ... other Firebase config
-```
+The project includes a comprehensive test suite covering:
 
-4. Start development servers:
-```bash
-# Terminal 1 - Frontend
-npm run dev:frontend
-
-# Terminal 2 - Backend
-npm run dev:backend
-```
-
-### Build for Production
+- **API Testing**: Player service and data fetching
+- **Component Testing**: PlayerCard and ComparisonTable rendering
+- **Integration Testing**: Full page functionality
+- **Real Data Testing**: Uses actual player statistics
 
 ```bash
-npm run build:frontend
-npm run build:backend
+# Run tests
+cd frontend && npm test
+
+# Run tests with UI
+npm run test:ui
 ```
 
-## 🤝 Contributing
+### Test Coverage
+- 9 focused tests covering key functionality
+- API integration with error handling
+- Component rendering and props
+- User interaction flows
+- Real data validation
 
-This is an educational project! Feel free to:
+## Project Structure
 
-- Submit bug reports or feature requests
-- Fork the project and experiment
-- Share your own hockey analytics ideas
+```
+faceoff-app/
+├── frontend/           # Vue.js application
+│   ├── src/
+│   │   ├── components/ # Reusable components
+│   │   ├── views/      # Page components
+│   │   ├── services/   # API services
+│   │   └── types/      # TypeScript definitions
+│   └── tests/          # Test suite
+├── backend/            # Express.js API
+└── shared/
+    └── data/          # Player statistics (JSON)
+```
 
-## 📝 License
+## Key Components
 
-This project is open source and available under the MIT License.
+- **PlayerComparison**: Main page for selecting and comparing players
+- **PlayerCard**: Individual player stat cards with highlighting
+- **ComparisonTable**: Side-by-side statistical comparison table
+- **PlayerSelector**: Dropdown for choosing players by season
 
-**Note**: This project uses publicly available NHL statistics and is not affiliated with the NHL or any hockey organization.
+## License
+
+MIT License - Educational project using publicly available NHL statistics.
