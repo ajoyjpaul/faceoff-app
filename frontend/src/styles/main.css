@@ -3,7 +3,9 @@
   /* Brand colors */
   --color-penguins-gold: #fcb514;
   --color-penguins-gold-hover: #f39c12;
-  --color-penguins-gold-shadow: rgba(252, 181, 20, 0.25);
+  --color-penguins-gold-shadow: rgba(252, 181, 20, 0.3);
+  --color-penguins-gold-shadow-hover: rgba(252, 181, 20, 0.4);
+  --color-penguins-gold-focus: rgba(252, 181, 20, 0.5);
   
   /* Background colors */
   --color-bg-primary: #000000;
@@ -31,6 +33,22 @@
   --color-success: #28a745;
   --color-warning: #ffc107;
   --color-info: #17a2b8;
+  
+  /* Danger colors for buttons */
+  --color-danger-shadow: rgba(220, 53, 69, 0.2);
+  --color-danger-shadow-hover: rgba(220, 53, 69, 0.3);
+  --color-danger-focus: rgba(220, 53, 69, 0.5);
+  
+  /* Additional colors */
+  --color-gray-400: #cccccc;
+  
+  /* Design tokens */
+  --font-weight-semibold: 600;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --shadow-sm: 0 2px 8px;
+  --shadow-md: 0 4px 15px;
+  --transition-normal: all 0.3s ease;
 }
 
 /* Global resets for the app */

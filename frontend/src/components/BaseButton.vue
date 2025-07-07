@@ -55,52 +55,52 @@ const buttonClasses = computed(() => {
 
 <style scoped>
 .btn-gold {
-  background-color: #fcb514;
-  border-color: #fcb514;
-  color: #000000;
-  font-weight: 600;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(252, 181, 20, 0.3);
-  transition: all 0.3s ease;
+  background-color: var(--color-penguins-gold);
+  border-color: var(--color-penguins-gold);
+  color: var(--color-text-on-primary);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm) var(--color-penguins-gold-shadow);
+  transition: var(--transition-normal);
 }
 
 .btn-gold:hover:not(:disabled) {
-  background-color: #f39c12;
-  border-color: #f39c12;
-  color: #000000;
+  background-color: var(--color-penguins-gold-hover);
+  border-color: var(--color-penguins-gold-hover);
+  color: var(--color-text-on-primary);
   transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(252, 181, 20, 0.4);
+  box-shadow: var(--shadow-md) var(--color-penguins-gold-shadow-hover);
 }
 
 .btn-gold:focus {
-  background-color: #fcb514;
-  border-color: #fcb514;
-  color: #000000;
-  box-shadow: 0 0 0 0.2rem rgba(252, 181, 20, 0.5);
+  background-color: var(--color-penguins-gold);
+  border-color: var(--color-penguins-gold);
+  color: var(--color-text-on-primary);
+  box-shadow: 0 0 0 0.2rem var(--color-penguins-gold-focus);
 }
 
 .btn-gold:disabled {
-  background-color: #cccccc;
-  border-color: #cccccc;
-  color: #666666;
+  background-color: var(--color-gray-400);
+  border-color: var(--color-gray-400);
+  color: var(--color-text-disabled);
   box-shadow: none;
   transform: none;
 }
 
 /* Enhanced Bootstrap outline-danger */
 .btn-outline-danger {
-  border-radius: 6px;
-  font-weight: 600;
-  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.2);
-  transition: all 0.3s ease;
+  border-radius: var(--radius-sm);
+  font-weight: var(--font-weight-semibold);
+  box-shadow: var(--shadow-sm) var(--color-danger-shadow);
+  transition: var(--transition-normal);
 }
 
 .btn-outline-danger:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+  box-shadow: var(--shadow-md) var(--color-danger-shadow-hover);
 }
 
 .btn-outline-danger:focus {
-  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+  box-shadow: 0 0 0 0.2rem var(--color-danger-focus);
 }
 </style>

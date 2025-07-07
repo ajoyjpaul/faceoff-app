@@ -138,7 +138,7 @@ defineExpose({
   color: white;
   font-weight: 600;
   font-size: 2rem;
-  border-bottom: 3px solid #fcb514;
+  border-bottom: 3px solid var(--color-penguins-gold);
   padding-bottom: 0.5rem;
   margin-bottom: 1.5rem;
   display: inline-block;
@@ -218,8 +218,8 @@ defineExpose({
 
 .comparison-table th {
   background: rgba(252, 181, 20, 0.1);
-  color: #fcb514;
-  font-weight: 600;
+  color: var(--color-penguins-gold);
+  font-weight: var(--font-weight-semibold);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -235,7 +235,7 @@ defineExpose({
   min-width: 140px;
   width: 140px;
   max-width: 140px;
-  border-right: 1px solid rgba(252, 181, 20, 0.3);
+  border-right: 1px solid var(--color-penguins-gold-shadow);
 }
 
 .comparison-table td:first-child {
@@ -265,7 +265,7 @@ defineExpose({
 }
 
 .best-stat-cell {
-  color: #fcb514 !important;
+  color: var(--color-penguins-gold) !important;
   background: rgba(252, 181, 20, 0.15) !important;
   font-weight: 600;
   animation: highlight 0.5s ease;

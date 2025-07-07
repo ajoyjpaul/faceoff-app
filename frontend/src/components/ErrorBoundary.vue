@@ -47,8 +47,8 @@ const retry = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 100%);
+  color: var(--color-text-primary);
 }
 
 .error-container {
@@ -59,20 +59,20 @@ const retry = () => {
 
 .error-icon {
   font-size: 4rem;
-  color: #dc3545;
+  color: var(--color-danger);
   margin-bottom: 1rem;
 }
 
 .error-title {
   font-size: 2rem;
   margin-bottom: 1rem;
-  color: white;
+  color: var(--color-text-primary);
 }
 
 .error-message {
   font-size: 1.1rem;
   margin-bottom: 2rem;
-  color: #ccc;
+  color: var(--color-text-secondary);
   line-height: 1.5;
 }
 
