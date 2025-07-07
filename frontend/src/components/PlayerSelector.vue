@@ -3,9 +3,9 @@
     <div class="d-flex align-items-center">
       <div class="player-number">{{ index + 1 }}</div>
       <select 
-        :value="selectedPlayer" 
+        :value="typeof selectedPlayer === 'string' ? selectedPlayer : JSON.stringify(selectedPlayer)" 
         @change="handlePlayerChange"
-        class="form-select player-select flex-grow-1"
+        class="player-select flex-grow-1"
       >
         <option value="">Select a player...</option>
         <optgroup 
@@ -90,19 +90,25 @@ const handlePlayerChange = (event: Event) => {
 }
 
 .player-select {
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(252, 181, 20, 0.3);
-  color: white;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 2px solid rgba(252, 181, 20, 0.3) !important;
+  color: white !important;
+  padding: 12px 16px !important;
+  border-radius: 8px !important;
+  font-size: 1rem !important;
+  -webkit-text-fill-color: white !important;
+  width: 100% !important;
+  min-height: 44px !important;
+  font-family: inherit !important;
+  outline: none !important;
 }
 
 .player-select:focus {
   border-color: #fcb514;
   box-shadow: 0 0 0 0.2rem rgba(252, 181, 20, 0.25);
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: white !important;
+  -webkit-text-fill-color: white !important;
 }
 
 .player-select option {

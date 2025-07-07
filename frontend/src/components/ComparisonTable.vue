@@ -92,7 +92,7 @@ const statsToShow = [
   },
   {
     key: 'scouting_grade',
-    label: 'Scouting Grade',
+    label: 'Grade',
     getValue: (player: Player) => player.scouting_grade,
     displayValue: (player: Player) => player.scouting_grade.toString()
   }
