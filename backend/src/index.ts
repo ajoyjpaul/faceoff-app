@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import { http } from "@google-cloud/functions-framework";
 import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
