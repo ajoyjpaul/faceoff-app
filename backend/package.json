@@ -3,9 +3,11 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node src/index.ts",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
     "local": "npm run build && functions-framework --target=faceoffApi --source=dist --port=3000",
-    "deploy": "npm run build && gcloud functions deploy faceoffApi --gen2 --runtime=nodejs20 --entry-point=faceoffApi --source=dist --trigger-http --allow-unauthenticated --region=us-central1"
+    "deploy": "npm run build && gcloud functions deploy faceoffApi --gen2 --runtime=nodejs20 --entry-point=faceoffApi --source=dist --trigger-http --allow-unauthenticated --region=us-central1",
+    "vercel-build": "npm run build"
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^3.1.1",
