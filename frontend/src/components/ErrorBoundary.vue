@@ -6,9 +6,9 @@
       </div>
       <h2 class="error-title">Something went wrong</h2>
       <p class="error-message">{{ errorMessage }}</p>
-      <button class="btn btn-gold" @click="retry">
+      <BaseButton variant="primary" @click="retry">
         Try Again
-      </button>
+      </BaseButton>
     </div>
   </div>
   <slot v-else />
@@ -16,6 +16,7 @@
 
 <script setup lang="ts">
 import { ref, onErrorCaptured } from 'vue'
+import BaseButton from './BaseButton.vue'
 
 const hasError = ref(false)
 const errorMessage = ref('')
@@ -75,20 +76,4 @@ const retry = () => {
   line-height: 1.5;
 }
 
-.btn-gold {
-  background-color: #fcb514;
-  border: none;
-  color: #000;
-  font-weight: 600;
-  padding: 12px 24px;
-  font-size: 1rem;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.btn-gold:hover {
-  background-color: #f39c12;
-  transform: translateY(-1px);
-}
 </style>

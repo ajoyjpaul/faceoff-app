@@ -11,6 +11,34 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* ===== ONLY USED VARIABLES ===== */
+  /* Penguins brand colors */
+  --color-penguins-gold: #fcb514;
+  --color-penguins-gold-hover: #f39c12;
+  --color-penguins-gold-focus: rgba(252, 181, 20, 0.5);
+  --color-penguins-gold-shadow: rgba(252, 181, 20, 0.3);
+  --color-penguins-gold-shadow-hover: rgba(252, 181, 20, 0.4);
+  
+  /* Danger colors */
+  --color-danger-shadow: rgba(220, 53, 69, 0.3);
+  --color-danger-shadow-hover: rgba(220, 53, 69, 0.4);
+  --color-danger-focus: rgba(220, 53, 69, 0.5);
+  
+  /* Text colors */
+  --color-text-on-primary: #000000;
+  --color-text-disabled: #666666;
+  
+  /* Neutral colors */
+  --color-gray-400: #ced4da;
+  
+  /* Design tokens */
+  --font-weight-semibold: 600;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --shadow-sm: 0 2px 8px;
+  --shadow-md: 0 4px 15px;
+  --transition-normal: 0.3s ease;
 }
 
 a {

@@ -22,18 +22,19 @@
           </option>
         </optgroup>
       </select>
-      <button 
-        class="btn btn-outline-danger ms-2 remove-btn" 
+      <BaseButton 
+        variant="outline-danger" 
+        icon="fas fa-trash-alt"
         @click="$emit('remove', index)"
         :aria-label="'Remove player ' + (index + 1)"
-      >
-        <i class="fas fa-trash-alt"></i>
-      </button>
+        class="ms-2"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import BaseButton from './BaseButton.vue'
 import type { Player } from '../types'
 
 interface Props {
@@ -115,25 +116,6 @@ const handlePlayerChange = (event: Event) => {
   font-weight: 600;
 }
 
-.remove-btn {
-  background: #dc3545;
-  border: none;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
-}
-
-.remove-btn:hover {
-  background: #c82333;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
-}
-
-.remove-btn i {
-  font-size: 1rem;
-}
 
 @media (max-width: 768px) {
   .player-selection-row {
@@ -147,10 +129,5 @@ const handlePlayerChange = (event: Event) => {
     margin-right: 0;
   }
 
-  .remove-btn {
-    margin-top: 10px;
-    margin-left: 0;
-    align-self: flex-start;
-  }
 }
 </style>

@@ -34,14 +34,15 @@
                 <div class="d-flex align-items-center mt-4">
                   <div class="player-number-placeholder"></div>
                   <div class="add-button-container">
-                    <button 
-                      class="btn add-player-btn-rectangle" 
+                    <BaseButton 
+                      variant="primary" 
                       @click="addPlayer" 
                       :disabled="availablePlayersCount === 0" 
                       title="Add Player"
+                      fullWidth
                     >
                       Add Player
-                    </button>
+                    </BaseButton>
                   </div>
                   <div class="remove-button-placeholder"></div>
                 </div>
@@ -88,6 +89,7 @@ import { ref, computed, watch } from 'vue'
 import PlayerCard from '../components/PlayerCard.vue'
 import PlayerSelector from '../components/PlayerSelector.vue'
 import ComparisonTable from '../components/ComparisonTable.vue'
+import BaseButton from '../components/BaseButton.vue'
 import { usePlayerComparison } from '../composables/usePlayerComparison'
 import { usePlayerData } from '../composables/usePlayerData'
 import type { Player } from '../types'
@@ -192,21 +194,6 @@ calculateBestStats()
   margin: 0;
 }
 
-.add-player-btn-rectangle {
-  width: 100%;
-  height: 48px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #fcb514 0%, #f39c12 100%);
-  border: 2px solid rgba(252, 181, 20, 0.3);
-  color: #000;
-  font-size: 1rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(252, 181, 20, 0.3);
-}
 
 .player-number-placeholder {
   width: 30px;
@@ -227,18 +214,6 @@ calculateBestStats()
   margin-left: 8px;
 }
 
-.add-player-btn-rectangle:hover:not(:disabled) {
-  background: linear-gradient(135deg, #f39c12 0%, #fcb514 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(252, 181, 20, 0.4);
-  border-color: rgba(252, 181, 20, 0.5);
-}
-
-.add-player-btn-rectangle:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
 
 .player-selection-row {
   display: flex;
@@ -286,25 +261,6 @@ calculateBestStats()
   font-weight: 600;
 }
 
-.remove-btn {
-  background: #dc3545;
-  border: none;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
-}
-
-.remove-btn:hover {
-  background: #c82333;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
-}
-
-.remove-btn i {
-  font-size: 1rem;
-}
 
 .players-grid {
   display: grid;

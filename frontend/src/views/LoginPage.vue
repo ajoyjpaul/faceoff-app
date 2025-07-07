@@ -35,10 +35,15 @@
           {{ error }}
         </div>
 
-        <button type="submit" class="btn btn-gold w-100 mb-3" :disabled="isLoading">
-          <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        <BaseButton 
+          type="submit" 
+          variant="primary" 
+          :loading="isLoading" 
+          fullWidth 
+          class="mb-3"
+        >
           {{ isLoading ? 'Signing in...' : 'Sign in' }}
-        </button>
+        </BaseButton>
         
       </form>
     </div>
@@ -49,6 +54,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '../composables/useAuth'
+import BaseButton from '../components/BaseButton.vue'
 
 const router = useRouter()
 const email = ref('')
@@ -138,35 +144,6 @@ html, body {
   color: #999999;
 }
 
-.btn-gold {
-  background-color: #FFB81C;
-  border: none;
-  color: #000000;
-  font-weight: 600;
-  padding: 15px;
-  font-size: 16px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.btn-gold:hover {
-  background-color: #ffed4e;
-  color: #000000;
-  transform: translateY(-1px);
-}
-
-.btn-gold:focus {
-  background-color: #FFB81C;
-  color: #000000;
-  box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.5);
-}
-
-.btn-gold:disabled {
-  background-color: #cccccc;
-  color: #666666;
-  cursor: not-allowed;
-  transform: none;
-}
 
 .alert-danger {
   background-color: #dc3545;
