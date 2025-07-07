@@ -70,33 +70,13 @@ const handlePlayerChange = (event: Event) => {
 </script>
 
 <style scoped>
-.player-selection-row {
-  display: flex;
-  align-items: center;
-}
+/* Uses shared .player-selection-row from components.css */
 
-.player-number {
-  background: #fcb514;
-  color: #000;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  margin-right: 15px;
-  flex-shrink: 0;
-}
+/* Uses shared .player-number from components.css */
 
+/* Override shared .player-select styles for dropdown visibility fix */
 .player-select {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border: 2px solid rgba(252, 181, 20, 0.3) !important;
-  color: white !important;
-  padding: 12px 16px !important;
-  border-radius: 8px !important;
-  font-size: 1rem !important;
-  -webkit-text-fill-color: white !important;
+  -webkit-text-fill-color: var(--color-text-primary) !important;
   width: 100% !important;
   min-height: 44px !important;
   font-family: inherit !important;
@@ -104,22 +84,7 @@ const handlePlayerChange = (event: Event) => {
 }
 
 .player-select:focus {
-  border-color: #fcb514;
-  box-shadow: 0 0 0 0.2rem rgba(252, 181, 20, 0.25);
-  background: rgba(255, 255, 255, 0.15) !important;
-  color: white !important;
-  -webkit-text-fill-color: white !important;
-}
-
-.player-select option {
-  background: #2d2d2d;
-  color: white;
-}
-
-.player-select optgroup {
-  background: #1a1a1a;
-  color: #fcb514;
-  font-weight: 600;
+  -webkit-text-fill-color: var(--color-text-primary) !important;
 }
 
 

@@ -145,8 +145,8 @@ calculateBestStats()
 <style scoped>
 .page-wrapper {
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 100%);
+  color: var(--color-text-primary);
   position: relative;
 }
 
@@ -169,11 +169,11 @@ calculateBestStats()
 .penguins-logo {
   width: 80px;
   height: 80px;
-  filter: drop-shadow(0 4px 8px rgba(252, 181, 20, 0.3));
+  filter: drop-shadow(0 4px 8px var(--color-penguins-gold-shadow));
 }
 
 .page-title {
-  color: white;
+  color: var(--color-text-primary);
   font-weight: bold;
   font-size: 3rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -188,7 +188,7 @@ calculateBestStats()
 }
 
 .selection-title {
-  color: #fcb514;
+  color: var(--color-penguins-gold);
   font-weight: 600;
   font-size: 1.5rem;
   margin: 0;
@@ -215,51 +215,6 @@ calculateBestStats()
 }
 
 
-.player-selection-row {
-  display: flex;
-  align-items: center;
-}
-
-.player-number {
-  background: #fcb514;
-  color: #000;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  margin-right: 15px;
-  flex-shrink: 0;
-}
-
-.player-select {
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(252, 181, 20, 0.3);
-  color: white;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 1rem;
-}
-
-.player-select:focus {
-  border-color: #fcb514;
-  box-shadow: 0 0 0 0.2rem rgba(252, 181, 20, 0.25);
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-}
-
-.player-select option {
-  background: #2d2d2d;
-  color: white;
-}
-
-.player-select optgroup {
-  background: #1a1a1a;
-  color: #fcb514;
-  font-weight: 600;
-}
 
 
 .players-grid {
@@ -273,112 +228,12 @@ calculateBestStats()
   display: flex;
 }
 
-.player-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 1.5rem;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(252, 181, 20, 0.2);
-  width: 100%;
-  transition: transform 0.3s ease;
-}
-
-.player-card:hover {
-  transform: translateY(-2px);
-}
-
-.player-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-.player-avatar {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #fcb514 0%, #f39c12 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 1rem;
-  flex-shrink: 0;
-}
-
-.player-initials {
-  font-weight: 700;
-  font-size: 1.2rem;
-  color: #000;
-}
-
-.player-info {
-  min-width: 0;
-  flex: 1;
-}
-
-.player-name {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin: 0 0 0.25rem 0;
-  color: white;
-  word-break: break-word;
-}
-
-.player-season {
-  color: #fcb514;
-  font-weight: 500;
-  margin: 0;
-  font-size: 0.9rem;
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 0.5rem;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.stat-label {
-  font-size: 0.8rem;
-  color: #ccc;
-  margin-bottom: 0.5rem;
-}
-
-.stat-value {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: white;
-  transition: all 0.3s ease;
-}
-
-.stat-value.best-stat {
-  color: #fcb514 !important;
-  background: rgba(252, 181, 20, 0.15);
-  border-radius: 4px;
-  padding: 0.25rem 0.5rem;
-  animation: highlight 0.5s ease;
-}
-
-@keyframes highlight {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
 
 .section-title {
-  color: white;
+  color: var(--color-text-primary);
   font-weight: 600;
   font-size: 2rem;
-  border-bottom: 3px solid #fcb514;
+  border-bottom: 3px solid var(--color-penguins-gold);
   padding-bottom: 0.5rem;
   margin-bottom: 1.5rem;
   display: inline-block;
@@ -515,13 +370,13 @@ calculateBestStats()
 .empty-state {
   text-align: center;
   padding: 4rem 2rem;
-  color: #ccc;
+  color: var(--color-text-secondary);
 }
 
 .empty-state h3 {
   font-size: 2rem;
   margin-bottom: 1rem;
-  color: white;
+  color: var(--color-text-primary);
 }
 
 
